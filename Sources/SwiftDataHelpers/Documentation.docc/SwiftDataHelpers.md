@@ -15,7 +15,7 @@ needs appear.
 ## Requirements
 
 - iOS 17, macOS 14, watchOS 10, tvOS 17, visionOS 2
-- Swift tools version 6.0
+- Swift tools version 6.2
 - SwiftData (Apple framework, available on the platforms above)
 
 ## Dependencies
