@@ -5,9 +5,10 @@ SwiftData stores and dependency overrides.
 
 ## Overview
 
-`@LiveQuery` depends on ``DependencyValues/liveQueryContext``. In tests and
-previews you can inject an in-memory `ModelContext` and keep your SwiftData
-state isolated from disk.
+`@LiveQuery` depends on a configuration of
+``Dependencies/DependencyValues/liveQueryContext``. In tests and previews you
+can inject an in-memory `ModelContext` and keep your SwiftData state isolated
+from disk.
 
 ## In-Memory Containers
 

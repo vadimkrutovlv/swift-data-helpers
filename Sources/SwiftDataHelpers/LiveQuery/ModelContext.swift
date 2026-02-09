@@ -2,12 +2,12 @@ import Dependencies
 import OSLog
 import SwiftData
 
-/// A dependency value that supplies a SwiftData ``ModelContext``.
+/// A dependency value that supplies a SwiftData `ModelContext`.
 ///
-/// Set ``DependencyValues/liveQueryContext`` to provide a ``ModelContext``
+/// Set ``Dependencies/DependencyValues/liveQueryContext`` dependency to provide a `ModelContext`
 /// for ``LiveQuery`` and other helpers that rely on SwiftData.
 public struct SwiftDataHelpersModelContext {
-    /// Returns a ``ModelContext`` used by SwiftData helpers.
+    /// Returns a `ModelContext` used by SwiftData helpers.
     ///
     /// - Throws: Any error raised while creating or accessing the context.
     /// - Important: If this is not configured, the default live value

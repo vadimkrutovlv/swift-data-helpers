@@ -5,10 +5,10 @@ import Observation
 import SwiftData
 import SwiftUI
 
-/// A SwiftUI dynamic property that keeps a collection of models in sync with a ``ModelContext``.
+/// A SwiftUI dynamic property that keeps a collection of models in sync with a `ModelContext`.
 ///
 /// `LiveQuery` fetches identifiers using the current container, resolves models
-/// from the active ``ModelContext``, and refreshes when ``ModelContext/didSave``
+/// from the active `ModelContext`, and refreshes when `ModelContext.didSave`
 /// notifications are posted from the same container.
 ///
 /// ## Example
@@ -29,7 +29,7 @@ import SwiftUI
 /// }
 /// ```
 ///
-/// - Important: Configure ``DependencyValues/liveQueryContext`` before creating
+/// - Important: Configure ``Dependencies/DependencyValues/liveQueryContext`` before creating
 ///   a `@LiveQuery`. You can wrap views in ``LiveQueryBindable`` or set
 ///   `liveQueryContext.modelContext` in `prepareDependencies`.
 @MainActor
@@ -44,7 +44,7 @@ public struct LiveQuery<Model: PersistentModel>: @MainActor DynamicProperty {
     /// Creates a live query with an optional predicate and sort descriptors.
     ///
     /// - Parameters:
-    ///   - predicate: A ``Predicate`` used to filter results. Pass `nil` to
+    ///   - predicate: A `Predicate` used to filter results. Pass `nil` to
     ///     fetch all models.
     ///   - sort: Sort descriptors applied to the fetched models. An empty
     ///     array preserves store order.
@@ -94,7 +94,7 @@ public struct LiveQuery<Model: PersistentModel>: @MainActor DynamicProperty {
 
     /// Updates the query when dependencies or parameters change.
     ///
-    /// SwiftUI calls this as part of ``DynamicProperty``; you generally should
+    /// SwiftUI calls this as part of `DynamicProperty`; you generally should
     /// not call it directly.
     public mutating func update() {
         do {

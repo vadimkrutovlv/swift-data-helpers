@@ -2,11 +2,11 @@ import Dependencies
 import SwiftData
 import SwiftUI
 
-/// A container view that configures ``DependencyValues/liveQueryContext`` for `@LiveQuery`.
+/// A container view that configures ``Dependencies/DependencyValues/liveQueryContext`` for `@LiveQuery`.
 ///
-/// `LiveQueryBindable` injects the provided ``ModelContainer`` into both the
+/// `LiveQueryBindable` injects the provided `ModelContainer` into both the
 /// Dependencies system and the SwiftUI environment, ensuring `@LiveQuery`
-/// can resolve a valid ``ModelContext``.
+/// can resolve a valid `ModelContext`.
 ///
 /// ## Example
 ///
@@ -22,8 +22,8 @@ public struct LiveQueryBindable<Content: View>: View {
     /// Creates a container view for a model container and its content.
     ///
     /// - Parameters:
-    ///   - modelContainer: The container used to supply ``ModelContext`` to
-    ///     ``DependencyValues/liveQueryContext`` and the SwiftUI environment.
+    ///   - modelContainer: The container used to supply `ModelContext` to
+    ///     ``Dependencies/DependencyValues/liveQueryContext`` and the SwiftUI environment.
     ///   - content: The view content that uses `@LiveQuery` or other
     ///     SwiftData APIs.
     public init(
