@@ -6,6 +6,7 @@ import SwiftUI
 @main
 struct SwiftDataHelpersExampleApp: App {
     let container: ModelContainer = .main
+    private static let isRunningTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
     init() {
         let container = self.container
@@ -16,8 +17,10 @@ struct SwiftDataHelpersExampleApp: App {
 
     var body: some Scene {
         WindowGroup {
-            PersonsView()
-                .modelContainer(container)
+            if !Self.isRunningTests {
+                PersonsView()
+                    .modelContainer(container)
+            }
         }
     }
 }

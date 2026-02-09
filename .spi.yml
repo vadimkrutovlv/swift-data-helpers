@@ -1,6 +1,7 @@
 version: 1
 builder:
   configs:
+    - documentation_targets: [SwiftDataHelpers]
     - platform: ios
       scheme: SwiftDataHelpers
     - platform: macos
@@ -11,4 +12,3 @@ builder:
       scheme: SwiftDataHelpers
     - platform: visionos
       scheme: SwiftDataHelpers
-    - documentation_targets: [SwiftDataHelpers]
