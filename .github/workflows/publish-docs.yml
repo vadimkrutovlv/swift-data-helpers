@@ -1,0 +1,23 @@
+name: Publish Stable Documentation
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  deploy_version:
+    uses: ./.github/workflows/docs-channel-deploy.yml
+    with:
+      channel: ${{ github.event.release.tag_name }}
+      source_ref: ${{ github.event.release.tag_name }}
+      max_versions: 5
+    secrets: inherit
+
+  deploy_stable:
+    needs: deploy_version
+    uses: ./.github/workflows/docs-channel-deploy.yml
+    with:
+      channel: stable
+      source_ref: ${{ github.event.release.tag_name }}
+      max_versions: 5
+    secrets: inherit

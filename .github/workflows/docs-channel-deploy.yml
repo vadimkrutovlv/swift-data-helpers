@@ -1,0 +1,67 @@
+name: Deploy Docs Channel
+
+on:
+  workflow_call:
+    inputs:
+      channel:
+        description: "Docs channel folder and hosting base path (for example: main, stable, or 1.0.1)."
+        required: true
+        type: string
+      source_ref:
+        description: "Git ref to generate docs from (branch, tag, or commit SHA)."
+        required: true
+        type: string
+      max_versions:
+        description: "Maximum number of released versions in the dropdown."
+        required: false
+        default: 5
+        type: number
+
+concurrency:
+  group: docs-gh-pages
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  deploy:
+    name: Build and Deploy ${{ inputs.channel }} Docs
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.source_ref }}
+          path: source
+      - name: Select Xcode 26.0.1
+        run: sudo xcode-select -s /Applications/Xcode_26.0.1.app
+      - name: Generate documentation
+        run: |
+          output_dir="./docs-${{ inputs.channel }}"
+          repo_name="${GITHUB_REPOSITORY#*/}"
+          hosting_base_path="${repo_name}/${{ inputs.channel }}"
+          swift package --package-path "./source" --allow-writing-to-directory "${output_dir}" \
+            generate-documentation \
+            --target SwiftDataHelpers \
+            --output-path "${output_dir}" \
+            --transform-for-static-hosting \
+            --hosting-base-path "${hosting_base_path}"
+      - name: Resolve docs versions manifest
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          ./.github/scripts/ci/resolve_docs_versions.sh \
+            --repository "${{ github.repository }}" \
+            --manifest-path "./docs-${{ inputs.channel }}/versions.json" \
+            --max-versions "${{ inputs.max_versions }}"
+      - name: Inject version switcher
+        run: ./.github/scripts/ci/inject_docs_switcher.sh "./docs-${{ inputs.channel }}" "${{ inputs.channel }}" "versions.json"
+      - name: Deploy docs to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./docs-${{ inputs.channel }}
+          destination_dir: ${{ inputs.channel }}
+          keep_files: true

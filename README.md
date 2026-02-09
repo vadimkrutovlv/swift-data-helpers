@@ -211,7 +211,13 @@ the dependency for a particular subtree.
 
 ## Documentation
 
-TBA
+- Stable (latest release): [Docs](https://vadimkrutovlv.github.io/swift-data-helpers/stable/documentation/swiftdatahelpers/)
+- Main (latest `main` branch): [Docs](https://vadimkrutovlv.github.io/swift-data-helpers/main/documentation/swiftdatahelpers/)
+- Versioned release docs: `https://vadimkrutovlv.github.io/swift-data-helpers/<version>/documentation/swiftdatahelpers/`
+
+The version switcher includes `stable`, `main`, and the latest 5 release
+versions. Older release docs remain available by direct version URL even when
+they are not shown in the dropdown.
 
 ## Contributing
 

@@ -1,0 +1,15 @@
+name: Publish Main Documentation
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/docs-channel-deploy.yml
+    with:
+      channel: main
+      source_ref: ${{ github.sha }}
+      max_versions: 5
+    secrets: inherit
