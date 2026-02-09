@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "56B6DC29-ACBA-4578-A1BF-8007A9E5143E",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SwiftDataHelpersTests",
+        "name" : "SwiftDataHelpersTests"
+      }
+    }
+  ],
+  "version" : 1
+}

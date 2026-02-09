@@ -1,0 +1,82 @@
+name: Bug report
+description: Report a reproducible problem in SwiftDataHelpers.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting this issue.
+        Please include enough detail for someone else to reproduce it.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Problem summary
+      description: What is broken and where does it happen?
+      placeholder: A short, concrete summary of the bug.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Provide a deterministic sequence of steps.
+      placeholder: |
+        1. ...
+        2. ...
+        3. ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: What should have happened?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      placeholder: What happened instead?
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      description: How severe is this issue for your workflow?
+      options:
+        - Blocks usage
+        - Major degradation
+        - Minor degradation
+        - Cosmetic only
+    validations:
+      required: true
+  - type: input
+    id: xcode
+    attributes:
+      label: Xcode version
+      placeholder: "e.g. 26.2"
+    validations:
+      required: true
+  - type: input
+    id: swift
+    attributes:
+      label: Swift version
+      placeholder: "e.g. Apple Swift version 6.2"
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: Platform and OS version
+      description: Include the Apple platform and version where the issue occurs.
+      placeholder: "e.g. iOS 18.0, macOS 15.0, tvOS 18.0, watchOS 11.0, or visionOS 2.0"
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Logs, screenshots, or related links.

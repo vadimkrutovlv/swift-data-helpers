@@ -1,0 +1,55 @@
+name: Feature request
+description: Propose an improvement or new capability.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for sharing an idea.
+        Keep it concrete so contributors can turn it into an actionable PR.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem statement
+      description: What user or developer problem are you trying to solve?
+      placeholder: Describe the current pain point.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: What change would solve the problem?
+      placeholder: Describe the desired behavior or API.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What options did you evaluate and why were they not chosen?
+      placeholder: List alternatives and tradeoffs.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance criteria
+      description: Concrete conditions for completion.
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+    validations:
+      required: true
+  - type: dropdown
+    id: breaking-change
+    attributes:
+      label: Breaking change
+      description: Will this change require migration for existing users?
+      options:
+        - "No"
+        - "Yes"
+        - Unsure
+    validations:
+      required: true

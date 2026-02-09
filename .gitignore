@@ -1,0 +1,26 @@
+.DS_Store
+.build
+/Packages
+xcuserdata/
+DerivedData/
+.swiftpm/configuration/registries.json
+.swiftpm/xcode/package.xcworkspace/contents.xcworkspacedata
+.netrc
+.swiftpm/
+Package.resolved
+.xcodeproj/
+docs/
+.tmp/
+.swiftpm-cache/
+.clang-module-cache/
+
+# AI coding agent skills directories
+.agent/
+.claude/
+.codex/
+.cursor/
+.github/skills
+.openskills-stage/
+.vscode/
+.sourcekit-lsp
+AGENTS.md
