@@ -197,11 +197,14 @@ functional without bootstrapping your full app lifecycle.
 
 ## FAQ
 
-### I see a fatal error about `liveQueryContext.modelContext` not set. What does it mean?
+### I see logs about `liveQueryContext.modelContext` not set. What does it mean?
 
-`@LiveQuery` requires a `ModelContext` from ``DependencyValues/liveQueryContext``.
-Configure it once at your app entry point with `prepareDependencies`, or scope
-a subtree with ``LiveQueryBindable``.
+`@LiveQuery` requires a `ModelContext` from
+``Dependencies/DependencyValues/liveQueryContext``.
+If this dependency is not configured, SwiftDataHelpers logs a fault and the
+query returns empty results until a context is provided. Configure it once at
+your app entry point with `prepareDependencies`, or scope a subtree with
+``LiveQueryBindable``.
 
 ### Can I use `@LiveQuery` outside of views?
 
@@ -225,9 +228,9 @@ library.
 
 ### Guides
 
-- <doc:LiveQuery/LiveQueryAdvancedUsage>
-- <doc:LiveQuery/LiveQueryTesting>
-- <doc:LiveQuery/LiveQueryPerformance>
+- <doc:LiveQueryAdvancedUsage>
+- <doc:LiveQueryTesting>
+- <doc:LiveQueryPerformance>
 - <doc:SwiftDataMigrations>
 
 ### Live Queries
@@ -237,5 +240,4 @@ library.
 ### Dependency Setup
 
 - ``LiveQueryBindable``
-- ``DependencyValues/liveQueryContext``
-- ``SwiftDataHelpersModelContext``
+- ``Dependencies/DependencyValues/liveQueryContext``
