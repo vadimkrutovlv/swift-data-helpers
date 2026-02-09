@@ -1,4 +1,14 @@
 version: 1
 builder:
   configs:
+    - platform: ios
+      scheme: SwiftDataHelpers
+    - platform: macos
+      scheme: SwiftDataHelpers
+    - platform: tvos
+      scheme: SwiftDataHelpers
+    - platform: watchos
+      scheme: SwiftDataHelpers
+    - platform: visionos
+      scheme: SwiftDataHelpers
     - documentation_targets: [SwiftDataHelpers]
