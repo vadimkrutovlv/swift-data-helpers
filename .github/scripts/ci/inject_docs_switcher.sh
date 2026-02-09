@@ -346,4 +346,3 @@ while IFS= read -r -d '' file; do
   LOADER_SNIPPET="${loader_snippet}" \
     perl -0pi -e 's#</body>#$ENV{LOADER_SNIPPET}</body>#g' "${file}"
 done < <(find "${docs_dir}" -name "*.html" -print0)
-
