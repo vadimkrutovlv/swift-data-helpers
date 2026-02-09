@@ -3,7 +3,7 @@
   const switcherId = "codex-docs-switcher";
   const defaultChannel = "main";
   const manifestName = "versions.json";
-  const fallbackStableLabel = "stable (latest release)";
+  const fallbackStableLabel = "latest";
   const semverPattern = /^\d+\.\d+\.\d+$/;
   const isChannelSegment = (segment) =>
     segment === "main" || segment === "stable" || semverPattern.test(segment);
@@ -84,7 +84,7 @@
         ? manifestPayload.stable
         : null;
     const defaultStableLabel = stableVersion
-      ? `stable (${stableVersion})`
+      ? `latest (${stableVersion})`
       : fallbackStableLabel;
 
     const byChannel = new Map();
@@ -113,9 +113,7 @@
       label: defaultStableLabel,
       channel: "stable"
     };
-    if (!String(stableEntry.label).toLowerCase().includes("stable")) {
-      stableEntry.label = defaultStableLabel;
-    }
+    stableEntry.label = defaultStableLabel;
 
     const mainEntry = byChannel.get("main") || {
       key: "main",
@@ -125,7 +123,12 @@
 
     const releaseEntries = [];
     byChannel.forEach((entry, channel) => {
-      if (channel !== "stable" && channel !== "main" && semverPattern.test(channel)) {
+      if (
+        channel !== "stable" &&
+        channel !== "main" &&
+        semverPattern.test(channel) &&
+        channel !== stableVersion
+      ) {
         releaseEntries.push(entry);
       }
     });
