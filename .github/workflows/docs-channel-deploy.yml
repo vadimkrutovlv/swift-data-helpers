@@ -54,8 +54,7 @@ jobs:
           ./.github/scripts/ci/resolve_docs_versions.sh \
             --repository "${{ github.repository }}" \
             --manifest-path "./docs-${{ inputs.channel }}/versions.json" \
-            --max-versions "${{ inputs.max_versions }}" \
-            --github-output "${GITHUB_OUTPUT}"
+            --max-versions "${{ inputs.max_versions }}"
       - name: Inject version switcher
         run: ./.github/scripts/ci/inject_docs_switcher.sh "./docs-${{ inputs.channel }}" "${{ inputs.channel }}" "versions.json"
       - name: Deploy docs to gh-pages

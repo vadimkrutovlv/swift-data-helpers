@@ -114,19 +114,15 @@ jq -r '.[] | select(.draft == false and .prerelease == false) | .tag_name' "${tm
   > "${tmp_dir}/sorted-versions.txt"
 
 top_versions_file="${tmp_dir}/top-versions.txt"
-head -n "${max_versions}" "${tmp_dir}/sorted-versions.txt" > "${top_versions_file}"
+tail -n +2 "${tmp_dir}/sorted-versions.txt" | head -n "${max_versions}" > "${top_versions_file}"
 
 stable_version="$(head -n 1 "${tmp_dir}/sorted-versions.txt" || true)"
 if [ -n "${stable_version}" ]; then
-  stable_label="stable (${stable_version})"
+  stable_label="latest (${stable_version})"
 else
   stable_version=""
-  stable_label="stable (latest release)"
+  stable_label="latest"
 fi
-
-all_versions_json="$(
-  jq -R . < "${tmp_dir}/sorted-versions.txt" | jq -cs 'map(select(length > 0))'
-)"
 
 top_versions_json="$(
   jq -R . < "${top_versions_file}" | jq -cs 'map(select(length > 0))'
@@ -164,18 +160,8 @@ jq -n \
   ' > "${manifest_path}"
 
 top_versions_csv=""
-all_versions_csv=""
 if [ -s "${top_versions_file}" ]; then
   top_versions_csv="$(paste -sd, "${top_versions_file}")"
-fi
-if [ -s "${tmp_dir}/sorted-versions.txt" ]; then
-  all_versions_csv="$(paste -sd, "${tmp_dir}/sorted-versions.txt")"
-fi
-
-backfill_versions_json="${all_versions_json}"
-has_versions="false"
-if [ -n "${stable_version}" ]; then
-  has_versions="true"
 fi
 
 if [ -n "${github_output}" ]; then
@@ -183,10 +169,6 @@ if [ -n "${github_output}" ]; then
     echo "stable_version=${stable_version}"
     echo "stable_label=${stable_label}"
     echo "versions_csv=${top_versions_csv}"
-    echo "all_versions_csv=${all_versions_csv}"
-    echo "all_versions_json=${all_versions_json}"
-    echo "backfill_versions_json=${backfill_versions_json}"
-    echo "has_versions=${has_versions}"
   } >> "${github_output}"
 fi
 
