@@ -161,7 +161,7 @@
 			mainGroup = C30181062F32082E009A5C9F;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				C3460A302F3732A600C9DEFF /* XCLocalSwiftPackageReference "../../swift-data-helpers" */,
+				C3460A302F3732A600C9DEFF /* XCLocalSwiftPackageReference ".." */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = C30181102F32082E009A5C9F /* Products */;
@@ -493,9 +493,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		C3460A302F3732A600C9DEFF /* XCLocalSwiftPackageReference "../../swift-data-helpers" */ = {
+		C3460A302F3732A600C9DEFF /* XCLocalSwiftPackageReference ".." */ = {
 			isa = XCLocalSwiftPackageReference;
-			relativePath = "../../swift-data-helpers";
+			relativePath = "..";
 		};
 /* End XCLocalSwiftPackageReference section */
 
