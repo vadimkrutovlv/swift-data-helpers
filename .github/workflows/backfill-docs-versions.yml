@@ -46,7 +46,7 @@ jobs:
     uses: ./.github/workflows/docs-channel-deploy.yml
     with:
       channel: ${{ matrix.version }}
-      source_ref: ${{ matrix.version }}
+      source_ref: ${{ github.event_name == 'pull_request' && github.sha || 'main' }}
       max_versions: 5
     secrets: inherit
 
@@ -56,6 +56,6 @@ jobs:
     uses: ./.github/workflows/docs-channel-deploy.yml
     with:
       channel: stable
-      source_ref: ${{ needs.resolve_versions.outputs.stable_version }}
+      source_ref: ${{ github.event_name == 'pull_request' && github.sha || 'main' }}
       max_versions: 5
     secrets: inherit
