@@ -1,0 +1,19 @@
+name: Publish Main Documentation
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+    uses: ./.github/workflows/docs-channel-deploy.yml
+    with:
+      channel: main
+      source_ref: ${{ github.sha }}
+      max_versions: 5
+    secrets: inherit

@@ -1,47 +1,48 @@
-name: Publish Documentation
+name: Publish Stable Documentation
 
 on:
-  push:
+  release:
+    types: [published]
+  pull_request:
     branches: [main]
-
-concurrency:
-  group: docs-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
+    types: [opened, synchronize, reopened]
 
 jobs:
-  build:
-    name: Build DocC
-    runs-on: macos-26
+  resolve_versions:
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    outputs:
+      stable_version: ${{ steps.resolve.outputs.stable_version }}
+      has_versions: ${{ steps.resolve.outputs.has_versions }}
     steps:
       - uses: actions/checkout@v4
-      - name: Select Xcode 26.0.1
-        run: sudo xcode-select -s /Applications/Xcode_26.0.1.app
-      - uses: actions/configure-pages@v5
-      - name: Generate documentation
+      - name: Resolve version metadata
+        id: resolve
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: |
-          swift package --allow-writing-to-directory ./docs \
-            generate-documentation \
-            --target SwiftDataHelpers \
-            --output-path ./docs \
-            --transform-for-static-hosting \
-            --hosting-base-path swift-data-helpers
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs
+          ./scripts/resolve_docs_versions.sh \
+            --repository "${{ github.repository }}" \
+            --manifest-path "${RUNNER_TEMP}/versions.json" \
+            --max-versions "5" \
+            --github-output "${GITHUB_OUTPUT}"
 
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+  deploy_version:
+    needs: resolve_versions
+    if: ${{ (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository) && (github.event_name == 'release' || needs.resolve_versions.outputs.has_versions == 'true') }}
+    uses: ./.github/workflows/docs-channel-deploy.yml
+    with:
+      channel: ${{ github.event_name == 'release' && github.event.release.tag_name || needs.resolve_versions.outputs.stable_version }}
+      source_ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
+      max_versions: 5
+    secrets: inherit
+
+  deploy_stable:
+    needs: [resolve_versions, deploy_version]
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
+    uses: ./.github/workflows/docs-channel-deploy.yml
+    with:
+      channel: stable
+      source_ref: ${{ github.event_name == 'release' && github.event.release.tag_name || github.sha }}
+      max_versions: 5
+    secrets: inherit
