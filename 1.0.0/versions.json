@@ -1,0 +1,31 @@
+{
+  "stable": "1.0.1",
+  "generated_at": "2026-02-09T19:57:12Z",
+  "max_versions": 5,
+  "versions": [
+    "1.0.1",
+    "1.0.0"
+  ],
+  "entries": [
+    {
+      "key": "stable",
+      "label": "stable (1.0.1)",
+      "channel": "stable"
+    },
+    {
+      "key": "main",
+      "label": "main",
+      "channel": "main"
+    },
+    {
+      "key": "1.0.1",
+      "label": "1.0.1",
+      "channel": "1.0.1"
+    },
+    {
+      "key": "1.0.0",
+      "label": "1.0.0",
+      "channel": "1.0.0"
+    }
+  ]
+}
