@@ -1,6 +1,6 @@
 # SwiftDataHelpers
 
-![Static Badge](https://img.shields.io/badge/Swift-6.2%20%7C%206.1%20%7C%206.0-blue?logo=swift)
+![Static Badge](https://img.shields.io/badge/Swift-6.2-blue?logo=swift)
 ![Static Badge](https://img.shields.io/badge/Platforms-iOS%20%7C%20macOS%20%7C%20tvOS%20%7C%20watchOS%7C%20visionOS-blue?logo=apple)
 
 A growing set of SwiftData helpers for SwiftUI and app architecture.
@@ -28,7 +28,7 @@ needs appear.
 ## Requirements
 
 - iOS 17, macOS 14, watchOS 10, tvOS 17, visionOS 2
-- Swift tools version 6.0
+- Swift tools version 6.2
 - SwiftData (Apple framework, available on the platforms above)
 
 ## Dependencies
