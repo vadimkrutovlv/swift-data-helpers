@@ -3,10 +3,6 @@ name: Publish Documentation
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened]
-  workflow_dispatch:
 
 concurrency:
   group: docs-${{ github.workflow }}-${{ github.ref }}
@@ -27,9 +23,13 @@ jobs:
         run: sudo xcode-select -s /Applications/Xcode_26.0.1.app
       - uses: actions/configure-pages@v5
       - name: Generate documentation
-        env:
-          DOCS_HOSTING_BASE_PATH: ${{ github.event.repository.name }}
-        run: ./scripts/generate_documentation.sh
+        run: |
+          swift package --allow-writing-to-directory ./docs \
+            generate-documentation \
+            --target SwiftDataHelpers \
+            --output-path ./docs \
+            --transform-for-static-hosting \
+            --hosting-base-path swift-data-helpers
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
@@ -38,7 +38,6 @@ jobs:
   deploy:
     name: Deploy to GitHub Pages
     needs: build
-    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     environment:
       name: github-pages

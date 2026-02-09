@@ -10,6 +10,32 @@ SwiftData stores and dependency overrides.
 can inject an in-memory `ModelContext` and keep your SwiftData state isolated
 from disk.
 
+## Avoid Rendering App Views During Tests
+
+When possible, avoid rendering your full app view hierarchy while tests are
+running. This is especially recommended when views can trigger SwiftData work
+on appear, through task modifiers, or through observation updates.
+
+A simple pattern is to gate your root scene content:
+
+```swift
+private static let isRunningTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+```
+
+```swift
+var body: some Scene {
+    WindowGroup {
+        if !Self.isRunningTests {
+            PersonsView()
+                .modelContainer(container)
+        }
+    }
+}
+```
+
+This keeps test runs deterministic and avoids unintended data mutations or
+extra SwiftData activity caused by UI lifecycle events.
+
 ## In-Memory Containers
 
 The example app builds in-memory containers for tests and previews. This keeps

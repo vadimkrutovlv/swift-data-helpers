@@ -211,7 +211,7 @@ the dependency for a particular subtree.
 
 ## Documentation
 
-TBA
+The latest documentation for the library APIs is available [here](https://vadimkrutovlv.github.io/swift-data-helpers/documentation/swiftdatahelpers/).
 
 ## Contributing
 
