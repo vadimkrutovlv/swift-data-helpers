@@ -72,7 +72,8 @@ struct FilteredPeopleList: View {
 state belongs to a feature model instead of a view. Mark the property wrapper
 as `@ObservationIgnored` so the wrapper itself is not observed, while the
 backing data still updates when SwiftData saves. You can also consume
-`$people.valuesStream` for async snapshot handling.
+`$people.valuesStream` for async snapshot handling. For UIKit view controllers,
+prefer ``LiveQueryViewController`` and ``LiveQueryViewController/observe(_:onSnapshot:)``.
 
 ```swift
 @MainActor
@@ -95,6 +96,34 @@ final class PeopleFeatureModel {
 
     deinit {
         valuesTask?.cancel()
+    }
+}
+```
+
+## Multiple LiveQuery Streams in UIKit
+
+When a UIKit screen needs several live queries, subclass
+``LiveQueryViewController`` and register each projected query with
+``LiveQueryViewController/observe(_:onSnapshot:)``.
+
+```swift
+import SwiftDataHelpers
+import UIKit
+
+final class DashboardViewController: LiveQueryViewController {
+    @LiveQuery(sort: [SortDescriptor(\Person.name)]) private var people: [Person]
+    @LiveQuery(sort: [SortDescriptor(\Pet.name)]) private var pets: [Pet]
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        observe($people) { [weak self] snapshot in
+            self?.updatePeople(snapshot)
+        }
+
+        observe($pets) { [weak self] snapshot in
+            self?.updatePets(snapshot)
+        }
     }
 }
 ```

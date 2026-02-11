@@ -14,35 +14,25 @@ struct MainDatabaseUIKitPersonsList: UIViewControllerRepresentable {
 }
 
 
-final class MainDatabaseUIKitPersonsViewController: UIViewController {
+final class MainDatabaseUIKitPersonsViewController: LiveQueryViewController {
     @LiveQuery(sort: [.init(\Person.name)])
     private var persons: [Person]
 
     private let tableView = UITableView(frame: .zero, style: .plain)
     private let emptyLabel = UILabel()
     private var displayedPersons: [Person] = []
-    private var streamTask: Task<Void, Never>?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         configureTableView()
         configureEmptyLabel()
+        observe($persons) { [weak self] snapshot in
+            guard let self else { return }
+            displayedPersons = snapshot
+            tableView.reloadData()
+            updateEmptyState()
+        }
         updateEmptyState()
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        startObservingPersons()
-    }
-
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
-        stopObservingPersons()
-    }
-
-    deinit {
-        streamTask?.cancel()
-        streamTask = nil
     }
 }
 
@@ -74,26 +64,6 @@ private extension MainDatabaseUIKitPersonsViewController {
         emptyLabel.textColor = .secondaryLabel
         emptyLabel.numberOfLines = 0
         emptyLabel.font = .preferredFont(forTextStyle: .footnote)
-    }
-
-    func startObservingPersons() {
-        guard streamTask == nil else { return }
-
-        // No manual wrapper update call: stream subscription auto-activates LiveQuery observation.
-        let stream = $persons.valuesStream
-        streamTask = Task { [weak self] in
-            for await snapshot in stream {
-                guard let self else { return }
-                displayedPersons = snapshot
-                tableView.reloadData()
-                updateEmptyState()
-            }
-        }
-    }
-
-    func stopObservingPersons() {
-        streamTask?.cancel()
-        streamTask = nil
     }
 
     func updateEmptyState() {

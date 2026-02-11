@@ -308,6 +308,12 @@ extension LiveQuery {
     }
 }
 
+extension LiveQuery.Projection {
+    var observationKey: ObjectIdentifier {
+        return ObjectIdentifier(storage)
+    }
+}
+
 @ModelActor
 private actor LiveQueryFetcher {
     func fetchIDs<M: PersistentModel>(
