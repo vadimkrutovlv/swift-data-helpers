@@ -139,6 +139,9 @@ struct PeopleList: View {
 ### Consume LiveQuery as AsyncStream
 
 Use `$people.valuesStream` when you need async iteration over snapshots:
+this pattern is primarily for non-UIKit types (for example, `@Observable`
+models). For UIKit controllers, prefer ``LiveQueryViewController`` and
+``LiveQueryViewController/observe(_:onSnapshot:)``.
 
 ```swift
 @MainActor
@@ -162,6 +165,35 @@ final class PeopleFeatureModel {
 
     deinit {
         valuesTask?.cancel()
+    }
+}
+```
+
+### Use LiveQuery in UIKit View Controllers
+
+For UIKit screens, subclass ``LiveQueryViewController`` and register projected
+queries with ``LiveQueryViewController/observe(_:onSnapshot:)``. The base class
+starts observation in `viewDidAppear` and stops it in `viewDidDisappear`.
+
+```swift
+import SwiftDataHelpers
+import UIKit
+
+final class PeopleViewController: LiveQueryViewController {
+    @LiveQuery(sort: [SortDescriptor(\Person.name)])
+    private var people: [Person]
+
+    private var displayedPeople: [Person] = []
+    private let tableView = UITableView(frame: .zero, style: .plain)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        observe($people) { [weak self] snapshot in
+            guard let self else { return }
+            displayedPeople = snapshot
+            tableView.reloadData()
+        }
     }
 }
 ```
@@ -236,6 +268,7 @@ library.
 ### Live Queries
 
 - ``LiveQuery``
+- ``LiveQueryViewController``
 
 ### Dependency Setup
 
