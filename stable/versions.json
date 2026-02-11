@@ -1,6 +1,6 @@
 {
-  "stable": "1.0.1",
-  "generated_at": "2026-02-09T18:47:01Z",
+  "stable": "1.0.2",
+  "generated_at": "2026-02-11T18:47:56Z",
   "max_versions": 5,
   "versions": [
     "1.0.1",
@@ -9,7 +9,7 @@
   "entries": [
     {
       "key": "stable",
-      "label": "stable (1.0.1)",
+      "label": "latest (1.0.2)",
       "channel": "stable"
     },
     {
