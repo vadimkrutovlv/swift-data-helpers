@@ -11,16 +11,6 @@ List the impacted areas and confirm any explicitly non-impacted areas.
 - For feature/fix PRs (required): `Closes #<id>` or `Refs #<id>`
 - For docs/chore PRs (optional): add link if relevant
 
-## Test Evidence
-
-Paste command output summary (or explain skips):
-
-- `make test`
-- `make test-exampleApp`
-- `CONFIG=debug make build-all-platforms`
-- `CONFIG=release make build-all-platforms`
-- `make build-for-library-evolution`
-
 ## Checklist
 
 - [ ] PR description explains user-visible and technical impact.
