@@ -1,13 +1,16 @@
 import Foundation
 import SwiftData
+import SwiftDataHelpersMacros
 
 @Model
+@CRUD
 final class Pet: Identifiable {
     @Attribute(.unique) var id: UUID
     var name: String
     var kind: String
     var createdAt: Date
-    @Relationship(inverse: \Person.pets) var owner: Person?
+    @Relationship
+    var owner: Person?
 
     init(
         id: UUID = UUID(),

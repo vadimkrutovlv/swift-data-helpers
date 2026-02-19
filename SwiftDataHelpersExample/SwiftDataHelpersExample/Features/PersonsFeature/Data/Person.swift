@@ -1,12 +1,16 @@
 import Foundation
 import SwiftData
+import SwiftDataHelpersMacros
+import Dependencies
 
 @Model
+@CRUD
+@RelationshipQueries
 final class Person: Identifiable {
     @Attribute(.unique) var id: UUID
     var name: String
     var age: Int
-    @Relationship(deleteRule: .cascade) var pets: [Pet]
+    @Relationship(deleteRule: .cascade, inverse: \Pet.owner) var pets: [Pet]
 
     init(id: UUID, name: String, age: Int, pets: [Pet] = []) {
         self.id = id

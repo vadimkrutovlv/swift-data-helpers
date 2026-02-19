@@ -36,7 +36,7 @@ private extension PetsSection {
             ownerPicker
 
             if let selectedPerson {
-                PetsList(ownerID: selectedPerson.id, onDelete: model.deletePet)
+                PetsList(owner: selectedPerson, onDelete: model.deletePet)
 
                 Button("Add Random Pet") {
                     model.addRandomPet(to: selectedPerson)
@@ -72,18 +72,16 @@ private extension PetsSection {
 }
 
 private struct PetsList: View {
-    private let ownerID: UUID
+    private let owner: Person
     private let onDelete: (Pet) -> Void
 
-    @LiveQuery private var pets: [Pet]
-
-    init(ownerID: UUID, onDelete: @escaping (Pet) -> Void) {
-        self.ownerID = ownerID
+    init(owner: Person, onDelete: @escaping (Pet) -> Void) {
+        self.owner = owner
         self.onDelete = onDelete
-        _pets = LiveQuery(
-            predicate: #Predicate<Pet> { $0.owner?.id == ownerID },
-            sort: [SortDescriptor(\.name)]
-        )
+    }
+
+    var pets: [Pet] {
+        owner.pets(sort: [SortDescriptor(\.name)])
     }
 
     var body: some View {

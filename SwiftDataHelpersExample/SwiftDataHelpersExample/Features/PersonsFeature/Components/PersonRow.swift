@@ -21,10 +21,14 @@ struct PersonRow: View {
 private extension PersonRow {
     var content: some View {
         HStack(alignment: .firstTextBaseline) {
-            Text(person.name.isEmpty ? "Unnamed" : person.name)
-                .font(.headline)
-                .foregroundStyle(person.name.isEmpty ? .secondary : .primary)
+            VStack(alignment: .leading) {
+                Text(person.name.isEmpty ? "Unnamed" : person.name)
+                    .font(.headline)
+                    .foregroundStyle(person.name.isEmpty ? .secondary : .primary)
 
+                Text("Pets: (\(person.pets.count))")
+                    .font(.subheadline)
+            }
             Spacer()
 
             Text(person.age.formatted())
