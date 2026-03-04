@@ -31,16 +31,18 @@ final class PersonsFeatureModel {
 
         do {
             let context = editor.database.container.mainContext
+            let person: Person
 
             if let existingPerson = editor.existingPerson {
-                existingPerson.name = trimmedName
-                existingPerson.age = age
+                person = existingPerson
+                person.name = trimmedName
+                person.age = age
+
             } else {
-                let newPerson = Person(id: UUID(), name: trimmedName, age: age)
-                context.insert(newPerson)
+                person = Person(id: UUID(), name: trimmedName, age: age)
             }
 
-            try context.save()
+            try Person.upsert(person, modelContext: context)
         } catch {
             logger.error("Failed to save person: \(error)")
         }
@@ -48,9 +50,7 @@ final class PersonsFeatureModel {
 
     func deletePerson(_ person: Person, database: Database) {
         do {
-            let context = database.container.mainContext
-            context.delete(person)
-            try context.save()
+            try person.delete(modelContext: database.container.mainContext)
         } catch {
             logger.error("Failed to delete person: \(error)")
         }
@@ -74,9 +74,7 @@ final class PersonsFeatureModel {
     func addRandomPet(to owner: Person) {
         do {
             let context = Database.main.container.mainContext
-            let pet = Pet.random(owner: owner)
-            context.insert(pet)
-            try context.save()
+            try Pet.upsert(.random(owner: owner), modelContext: context)
         } catch {
             logger.error("Failed to save pet: \(error)")
         }
@@ -85,8 +83,7 @@ final class PersonsFeatureModel {
     func deletePet(_ pet: Pet) {
         do {
             let context = Database.main.container.mainContext
-            context.delete(pet)
-            try context.save()
+            try pet.delete(modelContext: context)
         } catch {
             logger.error("Failed to delete pet: \(error)")
         }

@@ -11,9 +11,10 @@ SwiftDataHelpers is a small, focused package that collects convenience APIs for
 working with SwiftData in SwiftUI apps. The goal is to keep common patterns
 simple, readable, and testable.
 
-Today the library focuses on live SwiftUI queries powered by
-`swift-dependencies`, and it will expand with more helpers over time as new
-needs appear.
+The library provides:
+- **`@LiveQuery`** — a SwiftUI property wrapper for live, dependency-driven SwiftData queries.
+- **`@CRUD`** — a macro that synthesizes fetch, upsert, and delete methods on `@Model` types.
+- **`@RelationshipQueries`** — a macro that synthesizes typed query methods for `@Relationship(inverse:)` collection properties.
 
 ## Sections
 
@@ -21,6 +22,7 @@ needs appear.
 - [Requirements](#requirements)
 - [Dependencies](#dependencies)
 - [Getting Started](#getting-started)
+- [Macros](#macros)
 - [Installation](#installation)
 - [Documentation](#documentation)
 - [Contributing](#contributing)
@@ -193,6 +195,79 @@ LiveQueryBindable(modelContainer: .privatePersons) {
 }
 ```
 
+## Macros
+
+The `SwiftDataHelpersMacros` product provides `@CRUD` and `@RelationshipQueries`
+macros. Add the macros product to your target alongside the core library:
+
+```swift
+.target(
+    name: "YourApp",
+    dependencies: [
+        .product(name: "SwiftDataHelpers", package: "SwiftDataHelpers"),
+        .product(name: "SwiftDataHelpersMacros", package: "SwiftDataHelpers"),
+    ]
+)
+```
+
+### @CRUD
+
+Attach `@CRUD` to a `@Model` type to generate `fetch`, `fetchOne`, `upsert`,
+`upsertCollection`, `deleteCollection`, and `delete` methods.
+
+```swift
+import SwiftDataHelpersMacros
+
+@Model
+@CRUD
+final class Person {
+    var name: String
+    var age: Int
+
+    init(name: String, age: Int) {
+        self.name = name
+        self.age = age
+    }
+}
+
+// Generated usage:
+let people = try Person.fetch(
+    predicate: #Predicate { $0.age >= 18 },
+    sort: [SortDescriptor(\.name)]
+)
+
+let person = try Person.upsert(Person(name: "Alice", age: 30))
+try person.delete()
+```
+
+Every generated method accepts an optional `modelContext:` parameter. When
+omitted, the context is resolved through `@Dependency(\.liveQueryContext)`.
+
+### @RelationshipQueries
+
+Attach `@RelationshipQueries` to a `@Model` type that has
+`@Relationship(inverse:)` collection properties. A typed query method is
+generated for each qualifying relationship.
+
+```swift
+@Model
+@CRUD
+@RelationshipQueries
+final class Person {
+    var name: String
+    @Relationship(deleteRule: .cascade, inverse: \Pet.owner)
+    var pets: [Pet]
+
+    init(name: String) {
+        self.name = name
+        self.pets = []
+    }
+}
+
+// Generated usage — fetch pets for a person with optional filter and sort:
+let sortedPets = person.pets(sort: [SortDescriptor(\.name)])
+```
+
 ## FAQ
 
 **I see a fatal error about `liveQueryContext.modelContext` not set. What does it mean?**
@@ -227,6 +302,7 @@ Contribution workflow, review rules, and release flow are documented in
 ## Example App
 
 A working example app is included in `SwiftDataHelpersExample/` and shows:
+- `@CRUD` and `@RelationshipQueries` macros on model types
 - Multiple containers
 - Dynamic predicates and sorting
 - `@LiveQuery` inside an `@Observable` model

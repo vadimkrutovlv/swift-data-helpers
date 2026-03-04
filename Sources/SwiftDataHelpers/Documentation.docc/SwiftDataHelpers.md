@@ -50,6 +50,42 @@ targets: [
 
 Update the version as new releases are published.
 
+### Use SwiftDataHelpersMacros (optional)
+
+If you want generated model helpers (`@CRUD`, `@RelationshipQueries`), add the
+`SwiftDataHelpersMacros` product to the target where your `@Model` types are
+declared.
+
+```swift
+// Package.swift
+
+targets: [
+    .target(
+        name: "YourApp",
+        dependencies: [
+            "SwiftDataHelpers",
+            "SwiftDataHelpersMacros",
+        ]
+    )
+]
+```
+
+Then import and annotate your models:
+
+```swift
+import SwiftData
+import SwiftDataHelpersMacros
+
+@Model
+@CRUD
+@RelationshipQueries
+final class Person {
+    @Attribute(.unique) var id: UUID
+    var name: String
+    @Relationship(inverse: \Pet.owner) var pets: [Pet]
+}
+```
+
 ## Using LiveQuery
 
 `LiveQuery` is a SwiftUI property wrapper that keeps your view state in sync
@@ -264,6 +300,12 @@ library.
 - <doc:LiveQueryTesting>
 - <doc:LiveQueryPerformance>
 - <doc:SwiftDataMigrations>
+
+### Macros
+
+- <doc:CRUDUsage>
+- <doc:RelationshipQueriesUsage>
+- <doc:MacrosPerformanceAndLimits>
 
 ### Live Queries
 

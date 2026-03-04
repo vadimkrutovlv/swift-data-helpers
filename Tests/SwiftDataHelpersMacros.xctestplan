@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "F1F99791-B5AE-4694-8A3C-0B69E47B1898",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:",
+        "identifier" : "SwiftDataHelpersMacrosTests",
+        "name" : "SwiftDataHelpersMacrosTests"
+      }
+    }
+  ],
+  "version" : 1
+}

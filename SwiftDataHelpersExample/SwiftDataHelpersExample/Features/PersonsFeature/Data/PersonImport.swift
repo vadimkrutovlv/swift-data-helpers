@@ -15,12 +15,8 @@ struct PersonSeed: Sendable {
 @ModelActor
 actor PersonImporter {
     func importPeople(_ seeds: [PersonSeed]) throws {
-        for seed in seeds {
-            let person = Person(id: UUID(), name: seed.name, age: seed.age)
-            modelContext.insert(person)
-        }
-
-        try modelContext.save()
+        let persons = seeds.map { Person(id: UUID(), name: $0.name, age: $0.age) }
+        try Person.upsertCollection(of: persons, modelContext: modelContext)
     }
 }
 

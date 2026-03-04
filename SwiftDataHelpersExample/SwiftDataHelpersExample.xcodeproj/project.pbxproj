@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C3460A322F3732A600C9DEFF /* SwiftDataHelpers in Frameworks */ = {isa = PBXBuildFile; productRef = C3460A312F3732A600C9DEFF /* SwiftDataHelpers */; };
+		C3C374A12F3F4892000977DC /* SwiftDataHelpersMacros in Frameworks */ = {isa = PBXBuildFile; productRef = C3C374A02F3F4892000977DC /* SwiftDataHelpersMacros */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C3460A322F3732A600C9DEFF /* SwiftDataHelpers in Frameworks */,
+				C3C374A12F3F4892000977DC /* SwiftDataHelpersMacros in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +106,7 @@
 			name = SwiftDataHelpersExample;
 			packageProductDependencies = (
 				C3460A312F3732A600C9DEFF /* SwiftDataHelpers */,
+				C3C374A02F3F4892000977DC /* SwiftDataHelpersMacros */,
 			);
 			productName = SwiftDataHelpersExample;
 			productReference = C301810F2F32082E009A5C9F /* SwiftDataHelpersExample.app */;
@@ -503,6 +506,10 @@
 		C3460A312F3732A600C9DEFF /* SwiftDataHelpers */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = SwiftDataHelpers;
+		};
+		C3C374A02F3F4892000977DC /* SwiftDataHelpersMacros */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SwiftDataHelpersMacros;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
